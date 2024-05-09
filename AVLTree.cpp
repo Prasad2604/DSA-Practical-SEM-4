@@ -99,21 +99,23 @@ class Node{
         
         }
         void search(Node* root,string key,int &cmp){
-            if(root){
-                if(root->key==key){
+            if(root==NULL){
+                return;
+            }
+            if(root->key==key){
                     cmp++;
                     cout<<"Key found with "<<cmp<<" comparisions!!"<<endl;
                     return;
-                }
-                if(key<root->key){
-                    cmp++;
-                    search(root,key,cmp);
-                }
-                else{
-                    cmp++;
-                    search(root,key,cmp);
-                }
             }
+            if(key<root->key){
+                    cmp++;
+                    search(root->left,key,cmp);
+            }
+            else if(key>root->key){
+                    cmp++;
+                    search(root->right,key,cmp);
+            }
+            
         }
         void levelOrderTraversal(Node* root){
             queue<Node*> q;
@@ -179,18 +181,18 @@ int main(){
         cin>>v;
         root = a.insert(root,k,v);
     }
-    a.inorder1(root);
-    // cout<<endl;
-    // cout<<"LevelOrderTraversal :- "<<endl;
-    // a.levelOrderTraversal(root);
-    // cout<<endl;
-    // cout<<"Inorder Traversal :- "<<endl;
-    // a.inorder(root);
-    // cout<<endl;
-    // cout<<"Search :- "<<endl;
-    // int cmp = 0;
-    // string k;
-    // cout<<"Enter key you wanna search :- ";
-    // cin>>k;
-    // a.search(root,k,cmp);
+    // a.inorder1(root);
+    cout<<endl;
+    cout<<"LevelOrderTraversal :- "<<endl;
+    a.levelOrderTraversal(root);
+    cout<<endl;
+    cout<<"Inorder Traversal :- "<<endl;
+    a.inorder(root);
+    cout<<endl;
+    cout<<"Search :- "<<endl;
+    int cmp = 0;
+    string k;
+    cout<<"Enter key you wanna search :- ";
+    cin>>k;
+    a.search(root,k,cmp);
 }
