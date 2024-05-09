@@ -70,7 +70,6 @@ class Node{
                 cout<<endl;
                 nptr = nptr->down;
             }
-
         }
         Node* find(Node* root,string start){
             Node* nptr = root;
