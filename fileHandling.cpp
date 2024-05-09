@@ -1,184 +1,116 @@
-#include <iostream>
-#include <fstream>
+#include<iostream>
+#include<fstream>
+
 using namespace std;
 
-class student
-{
+class Student{
     int roll_no;
     string name;
-    char div;
-    string add;
-
-public:
-    student()
-    {
-        roll_no = 0;
-        name = "";
-        div = ' ';
-        add = "";
+    string div;
+    public:
+    Student(){
+        roll_no=0;
+        name="";
+        div ='A';
     }
-    student(int r, string n, char d, string a)
-    {
-        roll_no = r;
-        name = n;
-        div = d;
-        add = a;
+    Student(int roll_no,string name,string div){
+        this->roll_no = roll_no;
+        this->name = name;
+        this->div = div;
     }
-    friend fstream &operator<<(fstream &out1, student &s);
-    friend fstream &operator>>(fstream &in1, student &s);
-    friend ostream &operator<<(ostream &out1, student &s);
-    void display(fstream &in, student &s);
-    void search(fstream &in, int x, student &s);
-    void delete1(fstream &in, int x, student &s, int n);
+    friend fstream &operator<<(fstream& out,Student &s);
+    friend fstream &operator>>(fstream& in,Student &s);
+    friend ostream &operator<<(ostream& out,Student &s);
+    void display(fstream &in,Student &s){
+        in.open("file1.txt",ios::in);
+        while(1){
+            in>>s;
+            if(in.eof()){
+                break;
+            }
+            cout<<s<<endl;;
+        }
+        in.close();
+    }
+    void search(fstream &in,int x,Student &s){
+        in.open("file1.txt",ios::in);
+        while(1){
+            in>>s;
+            if(s.roll_no==x){
+                cout<<s<<endl;
+                break;
+            }
+            if(in.eof()){
+                cout<<"Record not found !!"<<endl;
+                break;
+            }
+        }
+        in.close();
+    }
+    void delete1(fstream &in,int x,Student &s,int n){
+        in.open("file1.txt",ios::in);
+        Student arr[n];
+        for(int i=0;i<n;i++){
+            in>>s;
+            arr[i] = s;
+        }
+        in.close();
+        in.open("file1.txt",ios::out|ios::trunc);
+        for(int i=0;i<n;i++){
+            // in>>s;
+            if(arr[i].roll_no==x){
+                continue;
+            }
+            else{
+                in<<arr[i];
+                cout<<arr[i];
+            }
+        }
+        in.close();
+    }
 };
 
-fstream &operator<<(fstream &out1, student &s)
-{
-    out1 << s.roll_no << " ";
-    out1 << s.name << " ";
-    out1 << s.div << " ";
-    out1 << s.add << " ";
-    out1 << endl;
+fstream &operator<<(fstream& out1,Student& s){
+    out1 << s.roll_no<<" ";
+    out1 <<s.name<<" ";
+    out1<<s.div<<" ";
+    out1<<endl;
     return out1;
 }
-
-fstream &operator>>(fstream &in1, student &s)
-{
-    in1 >> s.roll_no;
-    in1 >> s.name;
-    in1 >> s.div;
-    in1 >> s.add;
+fstream &operator>>(fstream& in1,Student& s){
+    in1>>s.roll_no;
+    in1>>s.name;
+    in1>>s.div;
     return in1;
 }
-
-ostream &operator<<(ostream &out1, student &s)
-{
-    out1 << s.roll_no << " ";
-    out1 << s.name << " ";
-    out1 << s.div << " ";
-    out1 << s.add << " ";
-    cout << endl;
+ostream &operator<<(ostream& out1,Student& s){
+    out1 <<s.roll_no<<" ";
+    out1<<s.name<<" ";
+    out1<<s.div<<" ";
+    out1<<endl;
     return out1;
 }
-
-void student::display(fstream &in, student &s)
-{
-    in.open("file1.txt", ios::in);
-    while (1)
-    {
-        in >> s;
-        if (in.eof())
-        {
-            break;
-        }
-        cout << s;
-    }
-    in.close();
-}
-
-void student::search(fstream &in, int x, student &s)
-{
-    in.open("file1.txt", ios::in);
-    while (1)
-    {
-        in >> s;
-        if (s.roll_no == x)
-        {
-            cout << s;
-            break;
-        }
-    if (in.eof())
-    {
-        cout << "Record not found" << endl;
-        break;
-    }
-    }
-    in.close();
-}
-
-void student::delete1(fstream &in, int x, student &s, int n)
-{
-    student arr[n];
-    in.open("file1.txt", ios::in);
-    for (int i = 0; i < n; i++)
-    {
-        in >> s;
-        arr[i] = s;
-    }
-    in.close();
-    in.open("file1.txt", ios::out | ios::trunc);
-    for (int i = 0; i < n; i++)
-    {
-        if (arr[i].roll_no == x)
-        {
-            continue;
-        }
-        else
-        {
-            in << arr[i];
-            cout << arr[i];
-        }
-    }
-    in.close();
-}
-
-int main()
-{
-    student s1;
-    int c = 1;
-    int n;
+int main(){
     fstream myfile;
-    while (c > 0)
-    {
-        cout << "MENU" << endl;
-        cout << "1.Add record to file" << endl;
-        cout << "2.Display" << endl;
-        cout << "3.Search" << endl;
-        cout << "4.Delete" << endl;
-        cout << "Enter your choice:";
-        cin >> c;
-        if (c == 1)
-        {
-            myfile.open("file1.txt", ios::out);
-            cout << "Enter number of entries:";
-            cin >> n;
-            for (int i = 0; i < n; i++)
-            {
-                int roll_no;
-                string name;
-                char div;
-                string add;
-                cout << "Enter roll_no:";
-                cin >> roll_no;
-                cout << "Enter name:";
-                cin >> name;
-                cout << "Enter division:";
-                cin >> div;
-                cout << "Enter address:";
-                cin >> add;
-                student s(roll_no, name, div, add);
-                myfile << s;
-            }
-            myfile.close();
-        }
-        else if (c == 2)
-        {
-            s1.display(myfile, s1);
-        }
-        else if (c == 3)
-        {
-            int x;
-            cout << "Enter the roll no to search:";
-            cin >> x;
-            s1.search(myfile, x, s1);
-        }
-        else if (c == 4)
-        {
-            int x;
-            cout << "Enter roll no to delete:";
-            cin >> x;
-            s1.delete1(myfile, x, s1, n);
-        }
+    Student s;
+    int n;
+    cout<<"Number of students :- ";
+    cin>>n;
+    myfile.open("file1.txt",ios::out);
+    for(int i=0;i<n;i++){
+        int roll_no;
+        cout<<"Enter roll no :- ";
+        cin>>roll_no;
+        string name;
+        cout<<"Enter name :- ";
+        cin>>name;
+        string div;
+        cout<<"Enter your division :- ";
+        cin>>div;
+        Student s1(roll_no,name,div);
+        myfile<<s1;
     }
-    return 0;
+    myfile.close();
+    s.display(myfile,s);
+    s.delete1(myfile,1,s,n);
 }
