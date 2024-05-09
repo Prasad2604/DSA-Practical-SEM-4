@@ -1,8 +1,6 @@
 #include<iostream>
 using namespace std;
 
-
-
 class Node{
     int data;
     Node* lptr;
@@ -183,7 +181,7 @@ class Node{
             int temp = succ->data;
             succ->data = ptr->data;
             ptr->data = temp;
-            if(succ->lThread==true || succ->rThread==true){
+            if(succ->lThread==true && succ->rThread==true){
                 root = NoChild(root,parsucc,succ);
             }
             else{

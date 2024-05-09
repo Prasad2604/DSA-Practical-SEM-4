@@ -50,71 +50,41 @@ Node *create_tree(Node *&root)
     return root;
 }
 
-void preorder(Node *root)
+void preorder_recurcive(Node *root)
 {
     if (root == NULL)
     {
         return;
     }
     cout << root->data << " ";
-    preorder(root->lptr);
-    preorder(root->rptr);
+    preorder_recurcive(root->lptr);
+    preorder_recurcive(root->rptr);
 }
 
-// void inorder(Node* root){
-//     stack<Node*> s;
-//     // s.push(root);
-//     while(root){
-//         // cout<<root->data<<endl;
-//         while(root!=NULL){
-//             s.push(root);
-//             root = root->lptr;
-//         }
-//         // cout<<s.top()->data<<endl;
-//         root = s.top();
-//         while(!root->rptr){
-//             // cout<<"HI"<<endl;
-//             cout<<root->data<<" ";
-//             root = s.top();
-//             s.pop();
-//         }
-//         root = root->rptr;
-//     }
-//     while(!s.empty()){
-//         cout<<s.top()<<" ";
-//         s.pop();
-//     }
-
-// }
-
-void inorder(Node *root)
+void inorder_recurcive(Node *root)
 {
-    stack<Node *> st;
-    // cout<<st.top()->data<<endl;
-    while (!st.empty() || root != nullptr)
+    if (root == NULL)
     {
-    // st.push(root);
-
-        while (root)
-        {
-            st.push(root);
-
-            root = root->lptr;
-
-        }
-
-        root = st.top();
-        st.pop();
-        cout << root->data << " ";
-        root = root->rptr;
+        return;
     }
-    while(!st.empty()){
-        cout<<st.top()->data<<" ";
-        st.pop();
-    }
+    inorder_recurcive(root->lptr);
+    cout << root->data << " ";
+    inorder_recurcive(root->rptr);
 }
 
-void inorder1(Node* root){
+void postorder_recurcive(Node *root)
+{
+    if (root == NULL)
+    {
+        return;
+    }
+    cout << root->data << " ";
+    postorder_recurcive(root->lptr);
+    postorder_recurcive(root->rptr);
+}
+
+
+void inorder(Node* root){
     stack<Node*> s;
     Node* curr = root;
     while(!s.empty() || curr!=NULL){
@@ -132,16 +102,11 @@ void inorder1(Node* root){
 void Postorder(Node* root){
     stack<Node*> s1;
     stack<Node*> s2;
-    // Node* curr = root;
     s1.push(root);
     while(!s1.empty()){
         Node* curr = s1.top();
         s1.pop();
         s2.push(curr);
-        // if(curr->lptr && curr->rptr){
-        //     s1.push(curr->lptr);
-        //     s1.push(curr->rptr);
-        // }
         if(curr->lptr){
             s1.push(curr->lptr);
         }
@@ -175,8 +140,12 @@ void count(Node* root){
         s.pop();
         curr = curr->rptr;
     }
-    cout<<"Leaf :- "<<cnt<<" Internal :- "<<inte<<endl;
+    cout<<"Leaf :- "<<cnt<<" Internal :- "<<inte-1<<endl;
 
+}
+
+void levelOrderTraversal(Node* root){
+    
 }
 
 Node* mirrorTree(Node* root) {
@@ -261,16 +230,13 @@ Node* mirror(Node* root){
 
 int main()
 {
-    // Node::Tree t;
     Node *root = NULL;
     root = create_tree(root);
-    // preorder(root);
-    // inorder1(root);
     Postorder(root);
     cout<<endl;
     Preorder(root);
     cout<<endl;
-    count(root);
+    count(root); //for counting leaf and internal nodes
     cout<<endl;
     cout<<height(root)<<endl;
     Node* mirroredRoot = mirror(root);

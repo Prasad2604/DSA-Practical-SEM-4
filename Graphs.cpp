@@ -1,5 +1,7 @@
 #include<iostream> 
 #include<vector>
+#include<stack>
+#include<queue>
 using namespace std;
 
 class Node{
@@ -18,7 +20,6 @@ class Node{
         down = NULL;
     }
     class Graph{
-        // vector<Node*> clgMap; 
         Node* root;
         public:
         Graph(){
@@ -36,21 +37,10 @@ class Node{
                         curr = curr->next;
                     }
                     curr->next = new Node(c2);
-                    cout<<"HEhehe"<<endl;
                     cout<<curr->next->data<<" Added adjacent to "<<nptr->down->data<<endl;
                 }
                 nptr = nptr->down;
             }
-            // if(flag==0 && nptr->data==c1){
-            //     Node* curr = nptr;
-            //     while(curr->next){
-            //         curr = curr->next;
-            //     }
-            //     curr->next = new Node(c2);
-            //     flag=1;
-            //     cout<<"Hiiii"<<endl;
-            //     cout<<c2<<" Added adjacent to "<<c1<<endl;
-            // }
             if(flag==0){
                 nptr->down = new Node(c1);
                 Node* curr = nptr->down;
@@ -59,7 +49,6 @@ class Node{
                     curr = curr->next;
                 }
                 curr->next = new Node(c2);
-                cout<<"Helloooo"<<endl;
                 cout<<c2<<" Added adjacent to "<<c1<<endl;
             }
         }
@@ -83,7 +72,65 @@ class Node{
             }
 
         }
+        Node* find(Node* root,string start){
+            Node* nptr = root;
+            while(nptr){
+                if(nptr->data==start){
+                    return nptr;
+                }
+                nptr = nptr->down;
+            }
+            return NULL;
+        }
+        bool present(vector<string> arr,string s){
+            for(auto i:arr){
+                if(i==s){
+                    return 1;
+                }
+            }
+            return 0;
+        }
         
+        void bfs(Node* root,string start){
+            vector<string> visited;
+            queue<Node*> q; 
+            Node* ptr = find(root,start);
+            q.push(ptr);
+            visited.push_back(ptr->data);
+            while(!q.empty()){
+                Node* frontNode = q.front();
+                q.pop();
+                cout<<frontNode->data<<" ";
+                Node* curr = find(root,frontNode->data);
+                while(curr){
+                    if(!present(visited,curr->data)){
+                        q.push(curr);
+                        visited.push_back(curr->data);
+                    }
+                    curr = curr->next;
+                }
+            }
+        }
+        void dfs(Node* root,string start){
+            vector<string> v;
+            stack<Node*> s;
+            Node* ptr = find(root,start);
+            s.push(ptr);
+            v.push_back(ptr->data);
+            while(!s.empty()){
+                Node* top = s.top();
+                s.pop();
+                cout<<top->data<<" ";
+                Node* curr = find(root,top->data);
+                while(curr){
+                    if(!present(v,curr->data)){
+                        s.push(curr);
+                        v.push_back(curr->data);
+                    }
+                    curr = curr->next;
+                }
+            }
+        }  
     };
 };
 
@@ -103,4 +150,15 @@ int main(){
         g.add(root,c1,c2);
     }
     g.disp(root);
+    cout<<"BFS :- "<<endl;
+    string start;
+    cout<<"Enter start for BFS :- "<<endl;
+    cin>>start;
+    g.bfs(root,start);
+    cout<<endl;
+    cout<<"DFS :- "<<endl;
+    // string start;
+    cout<<"Enter start for DFS :- "<<endl;
+    cin>>start;
+    g.dfs(root,start);
 }
