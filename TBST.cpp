@@ -262,3 +262,84 @@ int main(){
     t.inorder(root);
     cout<<endl;
 }
+
+
+
+// void del(Node *parent, Node *child) {
+//         // leaf node
+//         if (child->lt == true && child->rt == true) {
+//             if (parent->right == child) {
+//                 parent->rt = true;
+//                 parent->right = child->right;
+//                 delete child;
+//             } else {
+//                 parent->lt = true;
+//                 parent->left = child->left;
+//                 delete child;
+//             }
+//         }
+
+//         // left subtree
+//         else if (child->lt == false) {
+//             Node *gc = child->left;
+//             Node *s = inSucc(child);
+//             Node *p = inPred(child);
+
+//             p->right = s;
+//             if (parent->right == child)
+//                 parent->right = gc;
+//             else
+//                 parent->left = gc;
+//             delete child;
+//         }
+
+//         // right subtree
+//         else if (child->rt == false) {
+//             Node *gc = child->right;
+//             Node *s = inSucc(child);
+//             Node *p = inPred(child);
+
+//             s->left = p;
+//             if (parent->right == child)
+//                 parent->right = gc;
+//             else
+//                 parent->left = gc;
+//             delete child;
+//         }
+
+//         // two children
+//         else {
+//             Node *leftMost = child->right, *LMparent = child;
+//             while (leftMost->lt == false) {
+//                 LMparent = leftMost;
+//                 leftMost = leftMost->left;
+//             }
+
+//             child->data = leftMost->data;
+
+//             del(LMparent, leftMost);
+//         }
+//     }
+
+// void deletion(int key) {
+//         Node *curr = root, *prev = head;
+//         if (curr == nullptr) {
+//             cout << "Tree empty" << endl;
+//             return;
+//         }
+//         while (curr->data != key) {
+//             prev = curr;
+//             if (key < curr->data) {
+//                 if (curr->lt == false) {
+//                     curr = curr->left;
+//                 } else
+//                     break;
+//             } else {
+//                 if (curr->rt == false) {
+//                     curr = curr->right;
+//                 } else
+//                     break;
+//             }
+//         }
+//         del(prev, curr);
+//     }
